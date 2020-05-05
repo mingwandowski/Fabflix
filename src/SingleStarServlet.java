@@ -1,4 +1,5 @@
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
@@ -7,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,7 +45,9 @@ public class SingleStarServlet extends HttpServlet {
 			Connection dbcon = dataSource.getConnection();
 
 			// Construct a query with parameter represented by "?"
-			String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
+			String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m " +
+					"where m.id = sim.movieId and sim.starId = s.id and s.id = ? " +
+					"order by year desc, title asc ;";
 
 			// Declare our statement
 			PreparedStatement statement = dbcon.prepareStatement(query);
@@ -54,6 +58,16 @@ public class SingleStarServlet extends HttpServlet {
 
 			// Perform the query
 			ResultSet rs = statement.executeQuery();
+
+			// page info from session
+			HttpSession session = request.getSession();
+			JsonObject movieParameter = (JsonObject) session.getAttribute("movieParameter");
+			String display;
+			if(movieParameter == null){
+				display = "0";
+			}else{
+				display = "1";
+			}
 
 			JsonArray jsonArray = new JsonArray();
 
@@ -72,6 +86,7 @@ public class SingleStarServlet extends HttpServlet {
 				// Create a JsonObject based on the data we retrieve from rs
 
 				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("display", display);
 				jsonObject.addProperty("star_id", starId);
 				jsonObject.addProperty("star_name", starName);
 				jsonObject.addProperty("star_dob", starDob);

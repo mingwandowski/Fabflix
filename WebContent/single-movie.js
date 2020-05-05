@@ -32,6 +32,10 @@ function handleResult(resultData) {
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#movie_info");
 
+    if(resultData["display"] == "0"){
+        $("#toMovieList").attr('style', 'visibility: hidden');
+    }
+
     // append two html <p> created to the h3 body, which will refresh the page
     let firstRowHTML = "";
     firstRowHTML += "<p>Movie Title: " + resultData["movie_title"] + "</p>" +
@@ -42,10 +46,21 @@ function handleResult(resultData) {
     firstRowHTML += "<p>Genre: ";
 
     for(let g = 0; g < resultData["genres"].length; g++){
-        firstRowHTML += resultData["genres"][g] + ", ";
+        firstRowHTML +=
+                // Add a link to single-star.html with id passed with GET url parameter
+                '<a href="browse.html?genre-id=' + resultData["genres"][g]["genre_id"] + '">'
+                + resultData["genres"][g]["genre_name"] +     // display star_name for the link text
+                '</a>';
+
+        firstRowHTML += ", ";
     }
     firstRowHTML = firstRowHTML.substring(0, firstRowHTML.length - 2);
     firstRowHTML += "</p>";
+
+    firstRowHTML +=
+        '<a class="btn btn-info" href="cart.html?method=add&id=' + resultData['movie_id'] + '">'
+        + "Add to Cart"
+        '</a>';
 
     starInfoElement.append(firstRowHTML);
 

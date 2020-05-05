@@ -53,6 +53,15 @@ function handleMoviesResult(resultData) {
         rowHTML += "</th>";
 
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
+
+        rowHTML +=
+            "<th>" +
+
+            '<a href="cart.html?method=add&id=' + resultData[i]['movie_id'] + '">'
+            + "Add to Cart"
+        '</a>' +
+        "</th>";
+
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
@@ -69,6 +78,6 @@ function handleMoviesResult(resultData) {
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: "api/movies", // Setting request url, which is mapped by StarsServlet in MoviesServlet.java
+    url: "api/home", // Setting request url, which is mapped by StarsServlet in MoviesServlet.java
     success: (resultData) => handleMoviesResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

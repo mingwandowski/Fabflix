@@ -1,5 +1,5 @@
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +12,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
-
-@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "EmpLoginServlet", urlPatterns = "/api/employee-login")
+public class EmpLoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     public String getServletInfo() {
@@ -57,7 +54,7 @@ public class LoginServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
-            String query = "select * from customers where email = ?;";
+            String query = "select * from employees where email = ?;";
 
             PreparedStatement statement = dbcon.prepareStatement(query);
             statement.setString(1, inputEmail);
@@ -71,13 +68,9 @@ public class LoginServlet extends HttpServlet {
                 responseJsonObject.addProperty("status", "fail");
                 responseJsonObject.addProperty("message", "email " + inputEmail + " doesn't exist");
             }else{
-                int id = rs.getInt("id");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String ccId = rs.getString("ccId");
-                String address = rs.getString("address");
                 String email = rs.getString("email");
                 String encryptedPassword = rs.getString("password");
+                String fullName = rs.getString("fullname");
 
                 boolean success = new StrongPasswordEncryptor().checkPassword(inputPassword, encryptedPassword);
                 // input password noes not match
@@ -88,7 +81,7 @@ public class LoginServlet extends HttpServlet {
                 }else{
                     // Login success
                     // set this user into the session
-                    request.getSession().setAttribute("user", new Customer(id, firstName, lastName, ccId, address, email, encryptedPassword));
+                    request.getSession().setAttribute("employee", new Employee(email, encryptedPassword, fullName));
                     responseJsonObject.addProperty("status", "success");
                     responseJsonObject.addProperty("message", "success");
                 }

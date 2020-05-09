@@ -11,11 +11,11 @@ Deployed on AWS. In order to avoid the cumbersome access to https, there is anot
 ### 3. There is a demo account for your reference.
 
 **Customer account:**
-* email: a@email.com
+* email: `a@email.com`
 * password: a2
 
-**Employee account:** (enter via [this](http://71.69.162.72:27373/fabflix/_dashboard.html) url
-* email: classta@email.edu
+**Employee account:** (enter via [this](http://71.69.162.72:27373/fabflix/_dashboard.html) url)
+* email: `classta@email.edu`
 * password: classta
 
 ### 2. [Demo video](https://youtu.be/cKRI9VabjFE)

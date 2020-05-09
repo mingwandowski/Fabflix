@@ -8,7 +8,7 @@ Uses Micro-service architecture(RESTful API) to make a front-end back-end separa
 
 Deployed on AWS. In order to avoid the cumbersome access to https, there is another version that uses http requests deployed on my personal [Raspberry Pi](http://71.69.162.72:27373/fabflix/).
 
-### 3. There is a demo account for your reference.
+### 2. There is a demo account for your reference.
 
 **Customer account:**
 * email: `a@email.com`
@@ -18,5 +18,5 @@ Deployed on AWS. In order to avoid the cumbersome access to https, there is anot
 * email: `classta@email.edu`
 * password: `classta`
 
-### 2. [Demo video](https://youtu.be/cKRI9VabjFE)
+### 3. [Demo video](https://youtu.be/cKRI9VabjFE)
 

@@ -30,6 +30,9 @@ public class LoginFilter implements Filter {
         }
 
         // Redirect to login page if the "user" attribute doesn't exist in session
+        Customer user = (Customer) httpRequest.getSession().getAttribute("user");
+        System.out.println("get user from session");
+        System.out.println(user);
         if (httpRequest.getSession().getAttribute("user") == null) {
 //            httpResponse.sendRedirect("login.html");
             httpResponse.sendRedirect("/fabflix/login.html");

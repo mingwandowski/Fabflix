@@ -15,3 +15,9 @@
     width: 25%;
     float: left;
 }
+
+#toast-show{
+    text-align: center;
+    margin: 15% auto auto;
+    width: 300px;
+}

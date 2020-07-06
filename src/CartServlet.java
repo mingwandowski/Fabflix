@@ -36,6 +36,7 @@ public class CartServlet extends HttpServlet {
         response.setContentType("application/json"); // Response mime type
 
         String movieId = request.getParameter("id");
+        System.out.println(movieId);
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
@@ -64,7 +65,7 @@ public class CartServlet extends HttpServlet {
                     String movie_title = rs.getString("title");
 
                     newJsonObject.addProperty("movie_title", movie_title);
-                    newJsonObject.addProperty("price", "19.50");
+                    newJsonObject.addProperty("price", "15.99");
                     newJsonObject.addProperty("quantity", 1);
                     newJsonObject.addProperty("movie_id", movieId);
                 }
@@ -75,12 +76,14 @@ public class CartServlet extends HttpServlet {
                 if (cartItem == null) {
                     cartItem = new HashMap<>();
                     cartItem.put(movieId, newJsonObject);
+                    System.out.println(cartItem);
                     session.setAttribute("cartItem", cartItem);
                 } else {
                     if (cartItem.get(movieId) == null) {
                         cartItem.put(movieId, newJsonObject);
                     } else {
                         JsonElement quantity = cartItem.get(movieId).get("quantity");
+                        System.out.println(quantity);
                         int number = Integer.parseInt(quantity.toString());
 
                         cartItem.get(movieId).addProperty("quantity", number + 1);

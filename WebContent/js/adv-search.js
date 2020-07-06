@@ -1,23 +1,6 @@
 let advSearch = jQuery("#adv-search-form");
 
 
-
-// let advanceSearch = $("#advance_search_form");
-
-function handleSearchResult(resultDataString) {
-    console.log(resultDataString);
-    // let resultDataJson = JSON.parse(resultDataString);
-    let resultDataJson = resultDataString;
-    console.log("handle search response");
-    console.log(resultDataJson);
-    console.log(resultDataJson["status"]);
-    // if (resultDataJson["status"] === "success") {
-    //     window.location.replace("movie-list.html");
-    // }
-    window.location.replace("movie-list.html");
-
-}
-
 function handleSearchInfo(searchEvent) {
     // console.log("submit search form");
     // const url = "api/adv-search";
@@ -34,11 +17,11 @@ function handleSearchInfo(searchEvent) {
      */
     searchEvent.preventDefault();
 
-    $.ajax("api/adv-search", {
-        method: "GET",
-        data: advSearch.serialize(),
-        success: handleSearchResult
-    });
+    // $.ajax("api/adv-search", {
+    //     method: "GET",
+    //     data: advSearch.serialize(),
+    //     success: handleSearchInfo
+    // });
 }
 
 advSearch.submit(handleSearchInfo);

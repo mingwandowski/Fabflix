@@ -29,7 +29,7 @@ function handleMoviesResult(resultData) {
         rowHTML +=
             "<th>" +
             // Add a link to single-movie.html with id passed with GET url parameter
-            '<a href=' + resultData[i]['movie_id'] + '"../single-movie.html?id=">'
+            '<a href=single-movie.html?id=' + resultData[i]['movie_id'] + '>'
             + resultData[i]["movie_title"] +     // display movie_title for the link text
             '</a>' +
             "</th>";
@@ -46,7 +46,7 @@ function handleMoviesResult(resultData) {
         rowHTML += "<th>";
         for(let s = 0; s < Math.min(3, resultData[i]["stars_name"].length); s++){
             // Add a link to single-movie.html with id passed with GET url parameter
-            rowHTML += '<a href=' + resultData[i]["stars_name"][s]["star_id"] + '"../single-star.html?id=">'
+            rowHTML += '<a href=single-star.html?id=' + resultData[i]["stars_name"][s]["star_id"] + '>'
             rowHTML += resultData[i]["stars_name"][s]["star_name"] + "<br>";
         }
         rowHTML = rowHTML.substring(0, rowHTML.length - 4);
@@ -56,11 +56,8 @@ function handleMoviesResult(resultData) {
 
         rowHTML +=
             "<th>" +
-
-            '<a href=' + resultData[i]['movie_id'] + '"../cart.html?method=add&id=">'
-            + "Add to Cart"
-        '</a>' +
-        "</th>";
+            '<a href=cart.html?method=add&id=' + resultData[i]['movie_id'] + '>' + "Add to Cart" + '</a>'
+            + "</th>";
 
         rowHTML += "</tr>";
 

@@ -59,7 +59,7 @@ public class MovieListServlet extends HttpServlet {
 
             ResultSet rs;
             JsonArray jsonArray = new JsonArray();
-            System.out.println(type);
+//            System.out.println(type);
             String query = "";
             PreparedStatement statement = null;
 
@@ -72,7 +72,7 @@ public class MovieListServlet extends HttpServlet {
             if("adv-search".equals(type)){
                 // type = adv-search
                 String title = "%" + request.getParameter("title") + "%";
-                String year = request.getParameter("year").equals("") ? request.getParameter("year") : "%";
+                String year = request.getParameter("year").equals("") ? "%" : request.getParameter("year");
                 String director = "%" + request.getParameter("director") + "%";
                 String starName = "%" + request.getParameter("starName") + "%";
 

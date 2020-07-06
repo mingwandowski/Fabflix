@@ -48,7 +48,7 @@ function handleMoviesResult(resultData) {
 
     // Populate the movie table
     // Find the empty table body by id "movie_table_body"
-    let starTableBodyElement = jQuery("#movie_table_body");
+    let movieTableBody = jQuery("#movie_table_body");
 
     // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < resultData["movieData"].length; i++) {
@@ -69,7 +69,9 @@ function handleMoviesResult(resultData) {
         rowHTML += "<th>";
         for(let g = 0; g < Math.min(3, resultData["movieData"][i]["genres_name"].length); g++){
             rowHTML +=
-                '<a href=' + resultData["movieData"][i]['genres_name'][g]['genre_id'] + '"../browse.html?genre-id=">'
+                '<a href=movie-list.html?type=browse-genre&genreId='
+                + resultData["movieData"][i]['genres_name'][g]['genre_id']
+                + '&orderBy=rating%20desc,%20title%20asc&numberOfList=10&page=0>'
                 + resultData["movieData"][i]["genres_name"][g]["genre_name"] + "<br>";
         }
         rowHTML = rowHTML.substring(0, rowHTML.length - 4);
@@ -78,7 +80,7 @@ function handleMoviesResult(resultData) {
         rowHTML += "<th>";
         for(let s = 0; s < Math.min(3, resultData["movieData"][i]["stars_name"].length); s++){
             // Add a link to single-movie.html with id passed with GET url parameter
-            rowHTML += '<a href=' + resultData["movieData"][i]["stars_name"][s]["star_id"] + '"../single-star.html?id=">'
+            rowHTML += '<a href=single-star.html?id=' + resultData["movieData"][i]["stars_name"][s]["star_id"] + '>'
             rowHTML += resultData["movieData"][i]["stars_name"][s]["star_name"] + "<br>";
         }
         rowHTML = rowHTML.substring(0, rowHTML.length - 4);
@@ -89,15 +91,14 @@ function handleMoviesResult(resultData) {
         rowHTML +=
             "<th>" +
 
-            '<a href=' + resultData["movieData"][i]['movie_id'] + '"../cart.html?method=add&id=">'
-            + "Add to Cart"
-            '</a>' +
-            "</th>";
+            '<a href=cart.html?method=add&id=' + resultData["movieData"][i]['movie_id'] + '>'
+            + "Add to Cart" + '</a>'
+            + "</th>";
 
         rowHTML += "</tr>";
 
         // Append the row created to the table body, which will refresh the page
-        starTableBodyElement.append(rowHTML);
+        movieTableBody.append(rowHTML);
     }
 }
 

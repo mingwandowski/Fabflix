@@ -59,16 +59,6 @@ public class SingleStarServlet extends HttpServlet {
 			// Perform the query
 			ResultSet rs = statement.executeQuery();
 
-			// page info from session
-			HttpSession session = request.getSession();
-			JsonObject movieParameter = (JsonObject) session.getAttribute("movieParameter");
-			String display;
-			if(movieParameter == null){
-				display = "0";
-			}else{
-				display = "1";
-			}
-
 			JsonArray jsonArray = new JsonArray();
 
 			// Iterate through each row of rs
@@ -86,7 +76,6 @@ public class SingleStarServlet extends HttpServlet {
 				// Create a JsonObject based on the data we retrieve from rs
 
 				JsonObject jsonObject = new JsonObject();
-				jsonObject.addProperty("display", display);
 				jsonObject.addProperty("star_id", starId);
 				jsonObject.addProperty("star_name", starName);
 				jsonObject.addProperty("star_dob", starDob);

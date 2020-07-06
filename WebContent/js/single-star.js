@@ -36,17 +36,13 @@ function getParameterByName(target) {
  * @param resultData jsonObject
  */
 
-function handleResult(resultData) {
+function handleResults(resultData) {
 
     console.log("handleResult: populating star info from resultData");
 
     // populate the star info h3
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#star_info");
-
-    if(resultData[0]["display"] == "0"){
-        $("#toMovieList").attr('style', 'visibility: hidden');
-    }
 
     // append two html <p> created to the h3 body, which will refresh the page
     starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
@@ -64,7 +60,7 @@ function handleResult(resultData) {
         rowHTML += "<tr>";
         rowHTML +=
             "<th>" +
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+            '<a href=single-movie.html?id=' + resultData[i]['movie_id'] + '>'
             + resultData[i]["movie_title"] +
             '</a>' +
             "</th>";
@@ -90,5 +86,5 @@ jQuery.ajax({
     dataType: "json",  // Setting return data type
     method: "GET",// Setting request method
     url: "api/single-star?id=" + starId, // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    success: (resultData) => handleResults(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
 });

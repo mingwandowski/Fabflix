@@ -24,7 +24,7 @@ function getParameterByName(target) {
  * @param resultData jsonObject
  */
 
-function handleResult(resultData) {
+function handleResults(resultData) {
 
     console.log("handleResult: populating star info from resultData");
 
@@ -32,18 +32,14 @@ function handleResult(resultData) {
     // find the empty h3 body by id "star_info"
     let starInfoElement = jQuery("#movie_info");
 
-    if(resultData["display"] == "0"){
-        $("#toMovieList").attr('style', 'visibility: hidden');
-    }
-
     // append two html <p> created to the h3 body, which will refresh the page
     let firstRowHTML = "";
-    firstRowHTML += "<p>Movie Title: " + resultData["movie_title"] + "</p>" +
-        "<p>Release Year: " + resultData["movie_year"] + "</p>" +
-        "<p>Director: " + resultData["movie_director"] + "</p>" +
-        "<p>Rating: " + resultData["movie_rating"] + "</p>";
+    firstRowHTML += "<h1>" + resultData["movie_title"] + "</h1>" +
+        "<h2>Release Year: " + resultData["movie_year"] + "</h2>" +
+        "<h2>Director: " + resultData["movie_director"] + "</h2>" +
+        "<h2>Rating: " + resultData["movie_rating"] + "</h2>";
 
-    firstRowHTML += "<p>Genre: ";
+    firstRowHTML += "<h2>Genre: ";
 
     for(let g = 0; g < resultData["genres"].length; g++){
         firstRowHTML +=
@@ -55,11 +51,11 @@ function handleResult(resultData) {
         firstRowHTML += ", ";
     }
     firstRowHTML = firstRowHTML.substring(0, firstRowHTML.length - 2);
-    firstRowHTML += "</p>";
+    firstRowHTML += "</h2>";
 
     firstRowHTML +=
-        '<a class="btn btn-info" href="cart.html?method=add&id=' + resultData['movie_id'] + '">'
-        + "Add to Cart"
+        '<a class="btn btn-info" href=cart.html?method=add&id=' + resultData['movie_id'] + '>'
+        + "Add to Cart" +
         '</a>';
 
     starInfoElement.append(firstRowHTML);
@@ -78,7 +74,7 @@ function handleResult(resultData) {
         rowHTML +=
             "<th>" +
             // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData["stars"][i]['star_id'] + '">'
+            '<a href=single-star.html?id=' + resultData["stars"][i]['star_id'] + '>'
             + resultData["stars"][i]["star_name"] +     // display star_name for the link text
             '</a>' +
             "</th>";
@@ -102,5 +98,5 @@ jQuery.ajax({
     dataType: "json",  // Setting return data type
     method: "GET",// Setting request method
     url: "api/single-movie?id=" + movieId, // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    success: (resultData) => handleResults(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
 });

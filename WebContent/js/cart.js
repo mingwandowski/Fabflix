@@ -31,8 +31,9 @@ function handleCartResult(resultData) {
     let count = 0;
 
     if (resultData[0] == null) {
-        starTableBodyElement.append("Welcome! Your cart is empty, you can go shopping now!");
+        $("#toast-show").attr('style', 'display: block');
     } else {
+        $("#toast-show").attr('style', 'display: none');
         // Iterate through resultData, no more than 20 entries
         for (let i = 0; i < resultData.length; i++) {
 
@@ -42,7 +43,7 @@ function handleCartResult(resultData) {
             rowHTML +=
                 "<th>" +
                 // Add a link to single-movie.html with id passed with GET url parameter
-                '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+                '<a href=single-movie.html?id=' + resultData[i]['movie_id'] + '>'
                 + resultData[i]["movie_title"] +     // display movie_title for the link text
                 '</a>' +
                 "</th>";
@@ -51,14 +52,13 @@ function handleCartResult(resultData) {
 
             rowHTML += "<th>" +
                 resultData[i]["quantity"] +
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=plus' + '">' + ' +' + '</a>' +
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=minus' + '">' + ' - ' + '</a>' +
-                "</th>";
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=plus">' + " + " + '</a>' +
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=minus">' + " - " + '</a>'
+                + "</th>";
 
             rowHTML +=
                 "<th>" +
-
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=delete' + '">'
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=delete">' + ''
                 + "Delete" +
                 '</a>' +
                 "</th>";
@@ -79,7 +79,7 @@ function handleCartResult(resultData) {
         totalCost.append("Grand Total: " + count * 19.50);
         let toPayment = jQuery("#toPayment");
         let temp = "";
-        temp += '<a class="btn btn-warning" href="payment.html?price=' + count * 19.50 + '">' + 'Go to Payment' + '</a>';
+        temp += '<a class="btn btn-warning" href=' + count * 19.50 + '"../payment.html?price=">' + 'Go to Payment' + '</a>';
         toPayment.append(temp);
     }
 }

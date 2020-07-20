@@ -71,8 +71,8 @@
                 <a class="nav-link" href="cart.html">cart</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <form id="autocomplete_form" class="form-inline my-2 my-lg-0">
+            <input id="autocomplete" class="autocomplete-searchbox form-control" type="text" placeholder="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -131,6 +131,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+<!-- include jquery autocomplete JS  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
+
 <!-- Load our own JS file -->
 <!-- The path is relative to oldIndex.html, since these two files are in the same directory -->
 <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
@@ -138,6 +141,7 @@
 <script src="js/movie-list.js"></script>
 <script src="js/browse.js"></script>
 <script src="js/adv-search.js"></script>
+<script src="js/autocomplete.js"></script>
 </body>
 
 

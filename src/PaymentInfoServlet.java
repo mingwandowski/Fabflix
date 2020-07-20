@@ -21,8 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
-@WebServlet(name = "paymentInfoServlet", urlPatterns = "/api/payment-info")
-public class paymentInfoServlet extends HttpServlet {
+@WebServlet(name = "PaymentInfoServlet", urlPatterns = "/api/payment-info")
+public class PaymentInfoServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
     // Create a dataSource which registered in web.xml

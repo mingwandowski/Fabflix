@@ -44,7 +44,8 @@ function handleResults(resultData) {
     for(let g = 0; g < resultData["genres"].length; g++){
         firstRowHTML +=
                 // Add a link to single-star.html with id passed with GET url parameter
-                '<a href="browse.html?genre-id=' + resultData["genres"][g]["genre_id"] + '">'
+                '<a href=movie-list.html?type=browse-genre&genreId=' + resultData["genres"][g]["genre_id"] +
+                '&orderBy=rating%20desc,%20title%20asc&numberOfList=10&page=0>'
                 + resultData["genres"][g]["genre_name"] +     // display star_name for the link text
                 '</a>';
 

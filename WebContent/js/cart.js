@@ -76,10 +76,10 @@ function handleCartResult(resultData) {
 
 
         let totalCost = jQuery("#totalCost");
-        totalCost.append("Grand Total: " + count * 19.50);
+        totalCost.append("Grand Total: " + count * 15.99);
         let toPayment = jQuery("#toPayment");
         let temp = "";
-        temp += '<a class="btn btn-warning" href=' + count * 19.50 + '"../payment.html?price=">' + 'Go to Payment' + '</a>';
+        temp += '<a class="btn btn-warning" href=payment.html?price=' + count * 15.99 + '>' + 'Go to Payment' + '</a>';
         toPayment.append(temp);
     }
 }

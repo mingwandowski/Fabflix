@@ -7,7 +7,6 @@ function handleCartResult(resultData) {
 
     let count = 0;
 
-    // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < resultData.length; i++) {
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";

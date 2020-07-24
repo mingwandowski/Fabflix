@@ -1,7 +1,6 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
@@ -14,26 +13,38 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-@WebServlet(name = "HomeServlet", urlPatterns = "/api/home")
-public class HomeServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+// Declaring a WebServlet called MovieListServlet, which maps to url "/api/mobile-search"
+@WebServlet(name = "MobileSearch", urlPatterns = "/api/mobile-search")
+public class MobileSearch extends HttpServlet {
+    private static final long serialVersionUID = 2L;
 
     // Create a dataSource which registered in web.xml
 //    @Resource(name = "jdbc/moviedb")
 //    private DataSource dataSource;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
 
-        response.setContentType("application/json");
+        response.setContentType("application/json"); // Response mime type
+
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        try {
+        String insertTitle = request.getParameter("title");
+        String [] arrTitle = insertTitle.split("\\s+");
+        String titles = "";
+        for(String s: arrTitle){
+            titles += "+" + s + "* ";
+        }
+
+        try{
             // Get a connection from dataSource
 //            Connection dbcon = dataSource.getConnection();
-
             Context initCtx = new InitialContext();
 
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
@@ -42,32 +53,53 @@ public class HomeServlet extends HttpServlet {
             DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
 
             Connection dbcon = ds.getConnection();
+//            String query = "select distinct movies.*, ratings.rating from movies, ratings " +
+//                    "where match (movies.title) against (? in boolean mode) " +
+//                    "and movies.id = ratings.movieId " +
+//                    "order by rating desc, title asc " +
+//                    ";";
 
-            // Declare our statement
-            Statement statement = dbcon.createStatement();
+            // fuzzy search
+            String query;
 
-            String query = "select movies.*, ratings.rating " +
-                    "from movies, ratings " +
-                    "where movies.id = ratings.movieId " +
-                    "order by ratings.rating desc " +
-                    "limit 8 offset 0;";
+            if(arrTitle.length <= 1){
+                query = "select distinct movies.*, ratings.rating from movies " +
+                        "join ratings " +
+                        "on movies.id = ratings.movieId " +
+                        "where match (title) against (? in boolean mode) or edrec (?, title, 2) " +
+                        "order by rating desc, title asc;";
+            }else{
+                query = "select distinct movies.*, ratings.rating from movies " +
+                        "join ratings " +
+                        "on movies.id = ratings.movieId " +
+                        "where match (title) against (? in boolean mode) or edth (?, title, 2) " +
+                        "order by rating desc, title asc;";
+            }
+
+            PreparedStatement statement = dbcon.prepareStatement(query);
+            statement.setString(1, titles);
+            statement.setString(2, insertTitle);
 
             // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery();
 
             JsonArray jsonArray = new JsonArray();
 
-            // Iterate through each row of rs
             while (rs.next()) {
                 String movie_id = rs.getString("id");
                 String movie_title = rs.getString("title");
                 String movie_year = rs.getString("year");
-                String director = rs.getString("director");
+                String movie_director = rs.getString("director");
                 float rating = rs.getFloat("rating");
 
                 // use movie_id to get 3 stars with new sql sentences
-                String starsQuery = "select stars.name, stars.id from stars join stars_in_movies as sim " +
-                        "on stars.id = sim.starId and sim.movieId = ? limit 3;";
+                String starsQuery = "select count(*) as count, tmp.* " +
+                        "from (select stars.name, stars.id from stars, stars_in_movies as sim " +
+                        "where stars.id = sim.starId and sim.movieId = ? ) as tmp, " +
+                        "movies, stars_in_movies as sim " +
+                        "where movies.id = sim.movieId and sim.starId = tmp.id " +
+                        "group by sim.starId order by count desc, name asc limit 3;";
+
                 // Declare our statement
                 PreparedStatement starsStatement = dbcon.prepareStatement(starsQuery);
                 // Set the parameter represented by "?" in the query to the id we get from url,
@@ -86,17 +118,23 @@ public class HomeServlet extends HttpServlet {
                 }
 
                 // use movie_id to get 3 genres with new sql sentences
-                String genresQuery = "select genres.name from genres join genres_in_movies as gim " +
-                        "on genres.id = gim.genreId and gim.movieId = ? limit 3;";
+                String genresQuery = "select genres.* from genres join genres_in_movies as gim " +
+                        "on genres.id = gim.genreId and gim.movieId = ? order by name limit 3;";
                 // Declare our statement
                 PreparedStatement genresStatement = dbcon.prepareStatement(genresQuery);
-
+                // Set the parameter represented by "?" in the query to the id we get from url,
+                // num 1 indicates the first "?" in the query
                 genresStatement.setString(1, movie_id);
                 ResultSet genresRS = genresStatement.executeQuery();
                 JsonArray genresJsonArray = new JsonArray();
                 while(genresRS.next()){
-                    String star_name = genresRS.getString("name");
-                    genresJsonArray.add(star_name);
+                    String genre_name = genresRS.getString("name");
+                    String genre_id = genresRS.getString("id");
+
+                    JsonObject genreJsonObject = new JsonObject();
+                    genreJsonObject.addProperty("genre_name", genre_name);
+                    genreJsonObject.addProperty("genre_id", genre_id);
+                    genresJsonArray.add(genreJsonObject);
                 }
 
                 // Create a JsonObject based on the data we retrieve from rs
@@ -104,7 +142,7 @@ public class HomeServlet extends HttpServlet {
                 jsonObject.addProperty("movie_id", movie_id);
                 jsonObject.addProperty("movie_title", movie_title);
                 jsonObject.addProperty("movie_year", movie_year);
-                jsonObject.addProperty("director", director);
+                jsonObject.addProperty("movie_director", movie_director);
                 jsonObject.add("stars_name", starsJsonArray);
                 jsonObject.add("genres_name", genresJsonArray);
                 jsonObject.addProperty("rating", rating);
@@ -120,8 +158,7 @@ public class HomeServlet extends HttpServlet {
             rs.close();
             statement.close();
             dbcon.close();
-        } catch (Exception e) {
-
+        }catch (Exception e) {
             // write error message JSON object to output
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
@@ -131,5 +168,6 @@ public class HomeServlet extends HttpServlet {
             response.setStatus(500);
         }
         out.close();
+        //close it;
     }
 }

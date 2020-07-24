@@ -36,25 +36,6 @@ function handleResult(resultData) {
 
         browseAbc.append(abcHTML);
     }
-    //
-    // for(let i = 0; i <= 9; i++){
-    //     rowHTML +=
-    //         // Add a link to single-star.html with id passed with GET url parameter
-    //         '<a href="browse.html?first-later=' + i + '">'
-    //         + i +     // display star_name for the link text
-    //         '</a>';
-    //     // 0 1 2 3 4 5 6 7 8 9
-    //     if(i == 9){
-    //         rowHTML += "<br>";
-    //     }else{
-    //         rowHTML += " | ";
-    //     }
-    // }
-    // rowHTML += '<a href="browse.html?first-later=*">'
-    //     + " * " +     // display star_name for the link text
-    //     '</a>';
-    // // Append the row created to the table body, which will refresh the page
-    // browseTitleBodyElement.append(rowHTML);
 }
 
 

@@ -20,7 +20,6 @@ function getParameterByName(target) {
 }
 
 
-
 function handleCartResult(resultData) {
     console.log("handleMoviesResult: populating movie table from resultData");
 
@@ -34,9 +33,8 @@ function handleCartResult(resultData) {
         $("#toast-show").attr('style', 'display: block');
     } else {
         $("#toast-show").attr('style', 'display: none');
-        // Iterate through resultData, no more than 20 entries
-        for (let i = 0; i < resultData.length; i++) {
 
+        for (let i = 0; i < resultData.length; i++) {
             // Concatenate the html tags with resultData jsonObject
             let rowHTML = "";
             rowHTML += "<tr>";
@@ -48,7 +46,6 @@ function handleCartResult(resultData) {
                 '</a>' +
                 "</th>";
             rowHTML += "<th>" + resultData[i]["price"] + "</th>";
-
 
             rowHTML += "<th>" +
                 resultData[i]["quantity"] +
@@ -74,7 +71,6 @@ function handleCartResult(resultData) {
             starTableBodyElement.append(rowHTML);
         }
 
-
         let totalCost = jQuery("#totalCost");
         totalCost.append("Grand Total: " + count * 15.99);
         let toPayment = jQuery("#toPayment");
@@ -92,7 +88,6 @@ function addRedirectToCartPage() {
     alert("add to cart successful!");
     window.location.replace("cart.html");
 }
-
 
 function add() {
     jQuery.ajax({

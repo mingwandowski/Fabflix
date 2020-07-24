@@ -3,7 +3,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +14,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.HashMap;
 
-// Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "CartServlet", urlPatterns = "/api/cart")
 public class CartServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
@@ -32,12 +29,11 @@ public class CartServlet extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json"); // Response mime type
+            throws IOException {
+        response.setContentType("application/json");
 
         String movieId = request.getParameter("id");
-        System.out.println(movieId);
-        // Output stream to STDOUT
+
         PrintWriter out = response.getWriter();
 
         try {
@@ -47,7 +43,6 @@ public class CartServlet extends HttpServlet {
             else {
                 // Get a connection from dataSource
                 Connection dbcon = dataSource.getConnection();
-
 
                 String query = "select movies.title from movies where movies.id = ?;";
 
@@ -76,14 +71,12 @@ public class CartServlet extends HttpServlet {
                 if (cartItem == null) {
                     cartItem = new HashMap<>();
                     cartItem.put(movieId, newJsonObject);
-                    System.out.println(cartItem);
                     session.setAttribute("cartItem", cartItem);
                 } else {
                     if (cartItem.get(movieId) == null) {
                         cartItem.put(movieId, newJsonObject);
                     } else {
                         JsonElement quantity = cartItem.get(movieId).get("quantity");
-                        System.out.println(quantity);
                         int number = Integer.parseInt(quantity.toString());
 
                         cartItem.get(movieId).addProperty("quantity", number + 1);
@@ -95,7 +88,6 @@ public class CartServlet extends HttpServlet {
                 for (JsonObject i : cartItem.values()) {
                     jsonArray.add(i);
                 }
-
 
                 // write JSON string to output
                 out.write(jsonArray.toString());
@@ -115,13 +107,10 @@ public class CartServlet extends HttpServlet {
 
             // set reponse status to 500 (Internal Server Error)
             response.setStatus(500);
-
         }
         out.close();
         //close it;
-
     }
-
 }
 
 

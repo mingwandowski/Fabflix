@@ -1,33 +1,21 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-// Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "cartDisplayServlet", urlPatterns = "/api/paymentSuccessful")
 public class PaymentSuccessfulServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
-    // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         response.setContentType("application/json"); // Response mime type
 
         // Output stream to STDOUT
@@ -47,7 +35,6 @@ public class PaymentSuccessfulServlet extends HttpServlet {
                 // set response status to 200 (OK)
                 response.setStatus(200);
 
-
         } catch (Exception e) {
 
             // write error message JSON object to output
@@ -61,9 +48,7 @@ public class PaymentSuccessfulServlet extends HttpServlet {
         }
         out.close();
         //close it;
-
     }
-
 }
 
 

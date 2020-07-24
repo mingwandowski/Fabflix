@@ -7,7 +7,6 @@ function handleCartResult(resultData) {
 
     let count = 0;
 
-    // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < resultData.length; i++) {
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";
@@ -15,7 +14,7 @@ function handleCartResult(resultData) {
         rowHTML +=
             "<th>" +
             // Add a link to single-movie.html with id passed with GET url parameter
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+            '<a href=single-movie.html?id=' + resultData[i]['movie_id'] + '>'
             + resultData[i]["movie_title"] +     // display movie_title for the link text
             '</a>' +
             "</th>";
@@ -36,7 +35,7 @@ function handleCartResult(resultData) {
     }
 
     let totalCost = jQuery("#totalCost");
-    totalCost.append("Grand Total: " + count * 19.50);
+    totalCost.append("Grand Total: " + count * 15.99);
 }
 
 

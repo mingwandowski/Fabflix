@@ -22,17 +22,12 @@ function getParameterByName(target) {
 }
 
 
-
 function handlePaymentResult(resultDataString) {
     console.log(resultDataString);
-    // let resultDataJson = JSON.parse(resultDataString);
     let resultDataJson = resultDataString;
     console.log("handle search response");
     console.log(resultDataJson);
     console.log(resultDataJson["status"]);
-    // if (resultDataJson["status"] === "success") {
-    //     window.location.replace("movie-list.html");
-    // }
     if(resultDataString["status"]=== "fail") {
         alert("payment fail!");
         window.location.replace("payment.html?price=" + price);

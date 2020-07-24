@@ -8,53 +8,47 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/cyborg/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GKugkVcT8wqoh3M8z1lqHbU+g6j498/ZT/zuXbepz7Dc09/otQZxTimkEMTkRWHP" crossorigin="anonymous">
 
     <!--My Own CSS-->
     <link rel="stylesheet" href="test.css"/>
 
     <title>Login to Fablix</title>
 </head>
+<body>
 
-<body background="https://images.unsplash.com/photo-1587122402961-4f710d8ce3de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-      style="background-size: cover;
-    background-position: 50% 50%;
-    background-attachment: fixed;">
-<div class="container padding-top-lg">
-    <div class="row">
-        <div style="width: 30%; margin: 25px auto;">
-            <div id="login" class="login">
-                <h2 class="margin-bottom-lg">Login to Fablix</h2>
-                <!-- Set the method to POST to avoid showing the username/password in the URL
-                 The default action is disabled to allow your own implementation. -->
-                <form id="login_form" method="post" action="#">
-                    <label><b>Email</b></label>
-                    <label>
-                        <input name="email" placeholder="Enter Email" type="text">
-                    </label>
-                    <br>
-                    <label><b>Password</b></label>
-                    <label>
-                        <input name="password" placeholder="Enter Password" type="password">
-                    </label>
-                    <br>
-                    <div class="g-recaptcha" data-sitekey="6LfPGPMUAAAAAP6rJN-0TEeRf02m8pVCfZsBmEBJ"></div>
-                    <input class="btn btn-warning" type="submit" value="Login">
-                </form>
-            </div>
+
+
+<form class="login_form" id="login_form" method="post" action="#">
+    <fieldset>
+        <legend>Fabflix Login</legend>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
 
+        <div class="g-recaptcha" data-sitekey="6LfPGPMUAAAAAP6rJN-0TEeRf02m8pVCfZsBmEBJ"></div>
 
-    <div id="login_error_message"></div>
-</div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </fieldset>
 
+    <div class="alert alert-dismissible alert-secondary" id="errorMessage" style="display: none;"></div>
+
+</form>
 
 <!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <!-- include our own JS file -->
-<script src="login.js"></script>
+<script src="js/login.js"></script>
 <!-- include recaptcha -->
 <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
 

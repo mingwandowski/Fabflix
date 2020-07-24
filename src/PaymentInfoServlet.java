@@ -1,9 +1,6 @@
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +12,12 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-// Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
-@WebServlet(name = "paymentInfoServlet", urlPatterns = "/api/payment-info")
-public class paymentInfoServlet extends HttpServlet {
+@WebServlet(name = "PaymentInfoServlet", urlPatterns = "/api/payment-info")
+public class PaymentInfoServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
     // Create a dataSource which registered in web.xml
@@ -34,15 +29,14 @@ public class paymentInfoServlet extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json"); // Response mime type
+            throws IOException {
+        response.setContentType("application/json");
 
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String cardNumber = request.getParameter("cardNumber");
         String date = request.getParameter("date");
 
-        // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
         try {
@@ -57,7 +51,6 @@ public class paymentInfoServlet extends HttpServlet {
 
                 // Perform the query
                 ResultSet rs = movieStatement.executeQuery();
-
 
                 JsonObject responseJsonObject = new JsonObject();
 
@@ -100,7 +93,6 @@ public class paymentInfoServlet extends HttpServlet {
                     }
                 }
 
-
                 // write JSON string to output
                 out.write(responseJsonObject.toString());
                 // set response status to 200 (OK)
@@ -123,7 +115,5 @@ public class paymentInfoServlet extends HttpServlet {
         }
         out.close();
         //close it;
-
     }
-
 }

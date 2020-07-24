@@ -1,14 +1,11 @@
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,19 +22,13 @@ public class SingleMovieServlet extends HttpServlet {
     @Resource(name = "jdbc/moviedb")
     private DataSource dataSource;
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
-        response.setContentType("application/json"); // Response mime type
+        response.setContentType("application/json");
 
-        // Retrieve parameter id from url request.
         String id = request.getParameter("id");
 
-        // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
         try {
@@ -58,19 +49,12 @@ public class SingleMovieServlet extends HttpServlet {
                                 "where movies.id = sim.movieId and sim.starId = tmp.id " +
                                 "group by sim.starId order by count desc, name asc;";
 
-/*
-*   select count(*) as count, tmp.* from (select stars.name, stars.id from stars, stars_in_movies as sim
-    where stars.id = sim.starId and sim.movieId = "tt0362227") as tmp, movies, stars_in_movies as sim
-    where movies.id = sim.movieId and sim.starId = tmp.id group by sim.starId order by count desc, name asc;
-* */
 
             // Declare our statement
             PreparedStatement movieStatement = dbcon.prepareStatement(movieQuery);
             PreparedStatement genresStatement = dbcon.prepareStatement(genresQuery);
             PreparedStatement starsStatement = dbcon.prepareStatement(starsQuery);
 
-            // Set the parameter represented by "?" in the query to the id we get from url,
-            // num 1 indicates the first "?" in the query
             movieStatement.setString(1, id);
             genresStatement.setString(1, id);
             starsStatement.setString(1, id);
@@ -116,19 +100,8 @@ public class SingleMovieServlet extends HttpServlet {
                 starsJsonArray.add(starsJsonObject);
             }
 
-            // page info from session
-            HttpSession session = request.getSession();
-            JsonObject movieParameter = (JsonObject) session.getAttribute("movieParameter");
-            String display;
-            if(movieParameter == null){
-                display = "0";
-            }else{
-                display = "1";
-            }
-
             // Put all properties into jsonObject
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("display", display);
             jsonObject.addProperty("movie_id", movieId);
             jsonObject.addProperty("movie_title", movieTitle);
             jsonObject.addProperty("movie_year", movieYear);
@@ -160,7 +133,5 @@ public class SingleMovieServlet extends HttpServlet {
         }
         out.close();
         //close it;
-
     }
-
 }

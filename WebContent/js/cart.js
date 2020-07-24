@@ -20,7 +20,6 @@ function getParameterByName(target) {
 }
 
 
-
 function handleCartResult(resultData) {
     console.log("handleMoviesResult: populating movie table from resultData");
 
@@ -31,34 +30,32 @@ function handleCartResult(resultData) {
     let count = 0;
 
     if (resultData[0] == null) {
-        starTableBodyElement.append("Welcome! Your cart is empty, you can go shopping now!");
+        $("#toast-show").attr('style', 'display: block');
     } else {
-        // Iterate through resultData, no more than 20 entries
-        for (let i = 0; i < resultData.length; i++) {
+        $("#toast-show").attr('style', 'display: none');
 
+        for (let i = 0; i < resultData.length; i++) {
             // Concatenate the html tags with resultData jsonObject
             let rowHTML = "";
             rowHTML += "<tr>";
             rowHTML +=
                 "<th>" +
                 // Add a link to single-movie.html with id passed with GET url parameter
-                '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
+                '<a href=single-movie.html?id=' + resultData[i]['movie_id'] + '>'
                 + resultData[i]["movie_title"] +     // display movie_title for the link text
                 '</a>' +
                 "</th>";
             rowHTML += "<th>" + resultData[i]["price"] + "</th>";
 
-
             rowHTML += "<th>" +
                 resultData[i]["quantity"] +
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=plus' + '">' + ' +' + '</a>' +
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=minus' + '">' + ' - ' + '</a>' +
-                "</th>";
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=plus">' + " + " + '</a>' +
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=minus">' + " - " + '</a>'
+                + "</th>";
 
             rowHTML +=
                 "<th>" +
-
-                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=delete' + '">'
+                '<a href="cart.html?id=' + resultData[i]['movie_id'] + '&method=delete">' + ''
                 + "Delete" +
                 '</a>' +
                 "</th>";
@@ -74,12 +71,11 @@ function handleCartResult(resultData) {
             starTableBodyElement.append(rowHTML);
         }
 
-
         let totalCost = jQuery("#totalCost");
-        totalCost.append("Grand Total: " + count * 19.50);
+        totalCost.append("Grand Total: " + count * 15.99);
         let toPayment = jQuery("#toPayment");
         let temp = "";
-        temp += '<a class="btn btn-warning" href="payment.html?price=' + count * 19.50 + '">' + 'Go to Payment' + '</a>';
+        temp += '<a class="btn btn-warning" href=payment.html?price=' + count * 15.99 + '>' + 'Go to Payment' + '</a>';
         toPayment.append(temp);
     }
 }
@@ -92,7 +88,6 @@ function addRedirectToCartPage() {
     alert("add to cart successful!");
     window.location.replace("cart.html");
 }
-
 
 function add() {
     jQuery.ajax({

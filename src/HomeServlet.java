@@ -21,8 +21,8 @@ public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
-//    @Resource(name = "jdbc/moviedb")
-//    private DataSource dataSource;
+    @Resource(name = "jdbc/moviedb")
+    private DataSource dataSource;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -32,16 +32,16 @@ public class HomeServlet extends HttpServlet {
 
         try {
             // Get a connection from dataSource
-//            Connection dbcon = dataSource.getConnection();
+            Connection dbcon = dataSource.getConnection();
 
-            Context initCtx = new InitialContext();
-
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-            // Look up our data source
-            DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
-
-            Connection dbcon = ds.getConnection();
+//            Context initCtx = new InitialContext();
+//
+//            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+//
+//            // Look up our data source
+//            DataSource ds = (DataSource) envCtx.lookup("jdbc/moviedb");
+//
+//            Connection dbcon = ds.getConnection();
 
             // Declare our statement
             Statement statement = dbcon.createStatement();

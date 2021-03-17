@@ -25,9 +25,9 @@ Developed simple mobile version for both Android and iOS.
 * password: `a2`
 
 
-## Deployed on [AWS EC2](https://3.101.19.225:8443/fabflix/). 
+## Deployed on [AWS EC2](https://54.67.103.167:8443/fabflix/). 
 
-In order to avoid the cumbersome access to https, here is the [http port](http://3.101.19.225:8080/fabflix/) for your reference.
+In order to avoid the cumbersome access to https, here is the [http port](http://54.67.103.167:8080/fabflix/) for your reference.
 
 
 ## Demonstration
